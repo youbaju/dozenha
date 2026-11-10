@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>من نحن – دوزنها</title>
+<meta name="description" content="Control the pitch & speed of any song — from YouTube, WhatsApp or your device">
+<link rel="icon" href="favicon.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+@font-face{font-family:DZCairo;src:url(fonts/cairo-arabic-wght-normal.woff2) format('woff2');font-weight:200 1000;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0897-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC}
+@font-face{font-family:DZCairo;src:url(fonts/cairo-latin-wght-normal.woff2) format('woff2');font-weight:200 1000;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+:root{--bg:#f6f3ee;--card:#fffdf9;--fg:#1f1c18;--muted:#6f675d;--line:#e4ddd2;--accent:#b5651d;--accent2:#f1dcc6;--hero:#2a2622}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#131210;--card:#1d1b18;--fg:#f1ece4;--muted:#a59d91;--line:#332f29;--accent:#e0954f;--accent2:#4a3019;--hero:#0d0c0b}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.8 DZCairo,system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif}
+body.lang-ar .en,body.lang-en .ar{display:none!important}
+a{color:var(--accent)}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+nav{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:14px;height:60px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:19px;color:var(--fg);text-decoration:none}
+.brand img{width:32px;height:32px;border-radius:9px}
+nav .links{display:flex;gap:16px;margin-inline-start:auto;font-size:15px}
+nav .links a{color:var(--fg);text-decoration:none;opacity:.8}
+nav .links a:hover,nav .links a.on{opacity:1;color:var(--accent)}
+.langbtn{border:1px solid var(--line);background:transparent;color:var(--fg);border-radius:9px;min-width:40px;height:34px;font:600 14px DZCairo,system-ui;cursor:pointer}
+.hero{background:var(--hero);color:#fff;padding:56px 0 64px;text-align:center}
+.hero img{width:96px;height:96px;border-radius:26px;box-shadow:0 12px 34px rgba(181,101,29,.45)}
+.hero h1{font-size:40px;margin:14px 0 4px}
+.hero p{font-size:20px;color:#e8dccd;margin:0 auto;max-width:640px}
+.cta{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:26px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:12px;font-weight:700;text-decoration:none;border:0;cursor:pointer;font-size:16px}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.ghost{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.25)}
+.btn.soon{opacity:.6;pointer-events:none}
+.note-small{font-size:14px;color:#cbbfae;margin-top:12px}
+.iphone{display:none;background:#5a3415;color:#fff;border-radius:14px;padding:14px;margin:22px auto 0;max-width:620px}
+body.is-ios .iphone{display:block}
+section{padding:46px 0}
+h2{font-size:28px;margin:0 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.card h3{margin:0 0 6px;font-size:18px}
+.card p{margin:0;color:var(--muted)}
+.ico{font-size:26px}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0}
+.steps li{counter-increment:s;position:relative;padding-inline-start:46px;margin:12px 0}
+.steps li::before{content:counter(s);position:absolute;inset-inline-start:0;top:0;width:32px;height:32px;border-radius:50%;background:var(--accent2);color:var(--accent);font-weight:800;display:flex;align-items:center;justify-content:center}
+.price{text-align:center}
+.price .amt{font-size:30px;font-weight:800;color:var(--accent)}
+.price.best{border:2px solid var(--accent)}
+.badge{display:inline-block;background:var(--accent);color:#fff;border-radius:20px;padding:0 10px;font-size:13px}
+.platforms{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.platforms span{background:var(--card);border:1px solid var(--line);border-radius:30px;padding:4px 14px}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:8px 0}
+summary{font-weight:700;cursor:pointer}
+.doc{max-width:760px}
+.doc h1{font-size:32px;margin:30px 0 4px}
+.doc h2{font-size:21px;margin:28px 0 8px}
+.doc .date{color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+footer a{color:var(--muted)}
+@media (max-width:640px){nav .links{gap:10px;font-size:13px}.hero h1{font-size:32px}.hero p{font-size:17px}.brand span{display:none}}
+</style>
+</head>
+<body class="lang-ar" data-title-ar="من نحن – دوزنها" data-title-en="About – Dozenha">
+<nav><div class="wrap">
+  <a class="brand" href="index.html"><img src="icon.svg" alt=""><span><span class="ar">دوزنها</span><span class="en">Dozenha</span></span></a>
+  <div class="links"><a href="index.html"><span class="ar">الرئيسية</span><span class="en">Home</span></a><a href="help.html"><span class="ar">الشرح</span><span class="en">Help</span></a><a href="about.html" class=on><span class="ar">من نحن</span><span class="en">About</span></a><a href="privacy.html"><span class="ar">الخصوصية</span><span class="en">Privacy</span></a></div>
+  <button class="langbtn" id="langbtn" aria-label="Language">EN</button>
+</div></nav>
+
+<main class="wrap doc">
+<h1><span class="ar">من نحن</span><span class="en">About</span></h1>
+<p><span class="ar">دوزنها فكرة وُلدت من داخل الموسيقى. صمّمه موسيقي سعودي، عازف عود ومغنٍّ ومدرّس موسيقى متخصص في المقامات العربية، بعد سنوات من مواجهة نفس المشكلة كل يوم: أغنية جميلة على يوتيوب، لكن طبقتها لا تناسب الصوت، أو دوزانها لا يوافق العود، أو سرعتها أعلى من أن يُتمرّن عليها.</span><span class="en">Dozenha was born inside music. It was designed by a Saudi musician — an oud player, singer and music teacher specializing in Arabic maqam — after years of facing the same problem every day: a beautiful song on YouTube whose key doesn’t suit the voice, whose tuning doesn’t match the oud, or whose tempo is too fast to practice with.</span></p>
+<p><span class="ar">أردنا أداة بسيطة تفهم الموسيقي العربي: تحكّم دقيق بالطبقة يشمل أرباع الأصوات، وتكرار للجمل الصعبة، وسرعة تتدرّج مع التمرين، وتعمل على الجوال الذي يحمله العازف في يده وليس على الكمبيوتر فقط.</span><span class="en">We wanted a simple tool that understands the Arab musician: precise pitch control that includes quarter tones, looping for difficult phrases, speed that grows with practice — and that works on the phone a musician actually holds, not only on a computer.</span></p>
+<p><span class="ar">دوزنها لكل مغنٍّ يبحث عن طبقته، ولكل عازف يريد أن يعزف مع أغنيته المفضّلة، ولكل مدرّس يريد أن يرسل لطلابه الأغنية على دوزان العود.</span><span class="en">Dozenha is for every singer looking for their key, every player who wants to play along with a favorite song, and every teacher who wants to send students a song in the oud’s tuning.</span></p>
+<h2><span class="ar">مكتبات مفتوحة المصدر</span><span class="en">Open-source credits</span></h2>
+<p><span class="ar">يستخدم دوزنها هذه المكتبات والخطوط المجانية، مع الشكر لأصحابها:</span><span class="en">Dozenha uses these free libraries and fonts, with thanks to their authors:</span></p>
+<ul>
+<li><b>lamejs</b> — <span class="ar">لحفظ الأغاني بصيغة MP3. الرخصة: LGPL-3.0.</span><span class="en">MP3 encoding. License: LGPL-3.0.</span> <a href="https://github.com/zhuker/lamejs" target="_blank" rel="noopener">github.com/zhuker/lamejs</a></li>
+<li><b>mp4-muxer</b> — <span class="ar">لحفظ الأغاني بصيغة M4A. الرخصة: MIT.</span><span class="en">M4A export. License: MIT.</span> <a href="https://github.com/Vanilagy/mp4-muxer" target="_blank" rel="noopener">github.com/Vanilagy/mp4-muxer</a></li>
+<li><b>Cairo</b> — <span class="ar">خط الواجهة. الرخصة: SIL Open Font License 1.1.</span><span class="en">Interface font. License: SIL Open Font License 1.1.</span> <a href="https://github.com/Gue3bara/Cairo" target="_blank" rel="noopener">github.com/Gue3bara/Cairo</a></li>
+</ul>
+<h2><span class="ar">التواصل</span><span class="en">Contact</span></h2>
+<p><span class="ar">لأي سؤال أو اقتراح، تواصل معنا عبر صفحة دوزنها في Google Play أو متجر Chrome.</span><span class="en">For any question or suggestion, contact us through the Dozenha page on Google Play or the Chrome Web Store.</span></p>
+</main>
+
+<footer><div class="wrap">
+  <span>© 2026 <span class="ar">دوزنها</span><span class="en">Dozenha</span></span>
+  <a href="help.html"><span class="ar">الشرح</span><span class="en">Help</span></a><a href="about.html"><span class="ar">من نحن</span><span class="en">About</span></a><a href="privacy.html"><span class="ar">سياسة الخصوصية</span><span class="en">Privacy policy</span></a>
+  <span><span class="ar">يعمل على أندرويد والكمبيوتر</span><span class="en">Works on Android and computers</span></span>
+</div></footer>
+<script>
+(function(){
+  var KEY='dz_lang';
+  function detect(){var l=(navigator.languages&&navigator.languages[0])||navigator.language||'ar';return /^ar/i.test(l)?'ar':'en';}
+  var lang=detect(); try{var s=localStorage.getItem(KEY); if(s==='ar'||s==='en') lang=s;}catch(e){}
+  function apply(){
+    document.body.classList.remove('lang-ar','lang-en'); document.body.classList.add('lang-'+lang);
+    document.documentElement.lang=lang; document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+    var t=document.body.getAttribute('data-title-'+lang); if(t) document.title=t;
+    var b=document.getElementById('langbtn'); if(b){b.textContent=lang==='ar'?'EN':'ع';}
+  }
+  document.getElementById('langbtn').addEventListener('click',function(){lang=lang==='ar'?'en':'ar';try{localStorage.setItem(KEY,lang);}catch(e){}apply();});
+  if(/iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)) document.body.classList.add('is-ios');
+  apply();
+})();
+</script>
+</body>
+</html>

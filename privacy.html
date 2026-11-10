@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>سياسة الخصوصية – دوزنها</title>
+<meta name="description" content="Control the pitch & speed of any song — from YouTube, WhatsApp or your device">
+<link rel="icon" href="favicon.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+@font-face{font-family:DZCairo;src:url(fonts/cairo-arabic-wght-normal.woff2) format('woff2');font-weight:200 1000;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0897-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC}
+@font-face{font-family:DZCairo;src:url(fonts/cairo-latin-wght-normal.woff2) format('woff2');font-weight:200 1000;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+:root{--bg:#f6f3ee;--card:#fffdf9;--fg:#1f1c18;--muted:#6f675d;--line:#e4ddd2;--accent:#b5651d;--accent2:#f1dcc6;--hero:#2a2622}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#131210;--card:#1d1b18;--fg:#f1ece4;--muted:#a59d91;--line:#332f29;--accent:#e0954f;--accent2:#4a3019;--hero:#0d0c0b}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.8 DZCairo,system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif}
+body.lang-ar .en,body.lang-en .ar{display:none!important}
+a{color:var(--accent)}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+nav{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:14px;height:60px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:19px;color:var(--fg);text-decoration:none}
+.brand img{width:32px;height:32px;border-radius:9px}
+nav .links{display:flex;gap:16px;margin-inline-start:auto;font-size:15px}
+nav .links a{color:var(--fg);text-decoration:none;opacity:.8}
+nav .links a:hover,nav .links a.on{opacity:1;color:var(--accent)}
+.langbtn{border:1px solid var(--line);background:transparent;color:var(--fg);border-radius:9px;min-width:40px;height:34px;font:600 14px DZCairo,system-ui;cursor:pointer}
+.hero{background:var(--hero);color:#fff;padding:56px 0 64px;text-align:center}
+.hero img{width:96px;height:96px;border-radius:26px;box-shadow:0 12px 34px rgba(181,101,29,.45)}
+.hero h1{font-size:40px;margin:14px 0 4px}
+.hero p{font-size:20px;color:#e8dccd;margin:0 auto;max-width:640px}
+.cta{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:26px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:12px;font-weight:700;text-decoration:none;border:0;cursor:pointer;font-size:16px}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.ghost{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.25)}
+.btn.soon{opacity:.6;pointer-events:none}
+.note-small{font-size:14px;color:#cbbfae;margin-top:12px}
+.iphone{display:none;background:#5a3415;color:#fff;border-radius:14px;padding:14px;margin:22px auto 0;max-width:620px}
+body.is-ios .iphone{display:block}
+section{padding:46px 0}
+h2{font-size:28px;margin:0 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.card h3{margin:0 0 6px;font-size:18px}
+.card p{margin:0;color:var(--muted)}
+.ico{font-size:26px}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0}
+.steps li{counter-increment:s;position:relative;padding-inline-start:46px;margin:12px 0}
+.steps li::before{content:counter(s);position:absolute;inset-inline-start:0;top:0;width:32px;height:32px;border-radius:50%;background:var(--accent2);color:var(--accent);font-weight:800;display:flex;align-items:center;justify-content:center}
+.price{text-align:center}
+.price .amt{font-size:30px;font-weight:800;color:var(--accent)}
+.price.best{border:2px solid var(--accent)}
+.badge{display:inline-block;background:var(--accent);color:#fff;border-radius:20px;padding:0 10px;font-size:13px}
+.platforms{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.platforms span{background:var(--card);border:1px solid var(--line);border-radius:30px;padding:4px 14px}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:8px 0}
+summary{font-weight:700;cursor:pointer}
+.doc{max-width:760px}
+.doc h1{font-size:32px;margin:30px 0 4px}
+.doc h2{font-size:21px;margin:28px 0 8px}
+.doc .date{color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+footer a{color:var(--muted)}
+@media (max-width:640px){nav .links{gap:10px;font-size:13px}.hero h1{font-size:32px}.hero p{font-size:17px}.brand span{display:none}}
+</style>
+</head>
+<body class="lang-ar" data-title-ar="سياسة الخصوصية – دوزنها" data-title-en="Privacy policy – Dozenha">
+<nav><div class="wrap">
+  <a class="brand" href="index.html"><img src="icon.svg" alt=""><span><span class="ar">دوزنها</span><span class="en">Dozenha</span></span></a>
+  <div class="links"><a href="index.html"><span class="ar">الرئيسية</span><span class="en">Home</span></a><a href="help.html"><span class="ar">الشرح</span><span class="en">Help</span></a><a href="about.html"><span class="ar">من نحن</span><span class="en">About</span></a><a href="privacy.html" class=on><span class="ar">الخصوصية</span><span class="en">Privacy</span></a></div>
+  <button class="langbtn" id="langbtn" aria-label="Language">EN</button>
+</div></nav>
+
+<main class="wrap doc">
+<h1><span class="ar">سياسة الخصوصية</span><span class="en">Privacy policy</span></h1>
+<p class="date"><span class="ar">آخر تحديث: 9 نوفمبر 2026</span><span class="en">Last updated: November 9, 2026</span></p>
+<p><span class="ar">تنطبق هذه السياسة على إضافة دوزنها لمتصفحات Chrome وEdge وFirefox، وعلى تطبيق دوزنها لأندرويد. باختصار: <b>دوزنها لا يجمع بياناتك الشخصية، ولا يرفع أغانيك أو صوتك إلى أي مكان.</b></span><span class="en">This policy covers the Dozenha extension for Chrome, Edge and Firefox, and the Dozenha app for Android. In short: <b>Dozenha does not collect your personal data and never uploads your songs or audio anywhere.</b></span></p>
+
+<h2><span class="ar">١. معالجة الصوت</span><span class="en">1. Audio processing</span></h2>
+<p><span class="ar">تغيير الطبقة والسرعة يتم بالكامل على جهازك. لا يُرسل صوت الفيديوهات ولا ملفاتك ولا تسجيلاتك إلى أي خادم.</span><span class="en">Pitch and speed changes happen entirely on your device. Video audio, your files and your recordings are never sent to any server.</span></p>
+
+<h2><span class="ar">٢. ما يُحفظ على جهازك فقط</span><span class="en">2. What is stored only on your device</span></h2>
+<ul>
+<li><span class="ar">المقاطع التي تحفظها (رقم الفيديو، اسم المقطع، وقت البداية والنهاية، الطبقة والسرعة).</span><span class="en">Sections you save (video ID, section name, start and end time, pitch and speed).</span></li>
+<li><span class="ar">إعداداتك مثل لغة الواجهة.</span><span class="en">Your settings, such as the interface language.</span></li>
+<li><span class="ar">بيانات الفترة التجريبية (تاريخ بدايتها وعدد الأغاني والتنزيلات المستخدمة).</span><span class="en">Trial information (start date and the number of songs and downloads used).</span></li>
+<li><span class="ar">مفتاح الترخيص بعد التفعيل.</span><span class="en">Your license key after activation.</span></li>
+</ul>
+<p><span class="ar">هذه البيانات تبقى في متصفحك أو جوالك، ولا نستطيع نحن الاطلاع عليها. حذف الإضافة أو التطبيق يحذفها.</span><span class="en">This data stays in your browser or phone and we cannot see it. Removing the extension or the app deletes it.</span></p>
+
+<h2><span class="ar">٣. التحقق من الاشتراك</span><span class="en">3. Subscription verification</span></h2>
+<p><span class="ar">عند تفعيل مفتاح الترخيص، ثم مرة كل أسبوع تقريباً، يرسل دوزنها <b>مفتاح الترخيص فقط</b> مع اسم عام للجهاز («Dozenha») إلى خدمة Lemon Squeezy للتأكد من صلاحيته. لا يُرسل أي شيء آخر.</span><span class="en">When you activate a license key, and about once a week afterwards, Dozenha sends <b>only the license key</b> and a generic device name (“Dozenha”) to Lemon Squeezy to check that it is valid. Nothing else is sent.</span></p>
+
+<h2><span class="ar">٤. الشراء والدفع</span><span class="en">4. Purchases and payment</span></h2>
+<p><span class="ar">الشراء يتم عبر Lemon Squeezy، وهي البائع الرسمي التي تعالج الدفع والضرائب. بيانات الدفع والبريد الإلكتروني تُدخلها في صفحتهم مباشرة وتخضع <a href="https://www.lemonsqueezy.com/privacy" target="_blank" rel="noopener">لسياسة خصوصيتهم</a>. دوزنها لا يرى بيانات بطاقتك.</span><span class="en">Purchases are handled by Lemon Squeezy, the merchant of record that processes payment and taxes. You enter your payment details and email directly on their page, under <a href="https://www.lemonsqueezy.com/privacy" target="_blank" rel="noopener">their privacy policy</a>. Dozenha never sees your card details.</span></p>
+
+<h2><span class="ar">٥. ما لا نفعله</span><span class="en">5. What we don’t do</span></h2>
+<ul>
+<li><span class="ar">لا نستخدم أدوات تحليل أو تتبّع أو إعلانات.</span><span class="en">No analytics, tracking or advertising.</span></li>
+<li><span class="ar">لا نقرأ سجل التصفح، ولا نصل إلى أي موقع غير يوتيوب.</span><span class="en">We don’t read your browsing history or access any site other than YouTube.</span></li>
+<li><span class="ar">لا نبيع أو نشارك أي بيانات مع أي جهة.</span><span class="en">We don’t sell or share any data with anyone.</span></li>
+</ul>
+
+<h2><span class="ar">٦. الصلاحيات</span><span class="en">6. Permissions</span></h2>
+<ul>
+<li><span class="ar"><b>الوصول إلى youtube.com:</b> لإظهار لوحة دوزنها وتعديل صوت الفيديو الذي تشاهده.</span><span class="en"><b>Access to youtube.com:</b> to show the Dozenha panel and adjust the audio of the video you are watching.</span></li>
+<li><span class="ar"><b>التخزين:</b> لحفظ مقاطعك وإعداداتك على جهازك.</span><span class="en"><b>Storage:</b> to keep your sections and settings on your device.</span></li>
+<li><span class="ar"><b>الاتصال بـ api.lemonsqueezy.com:</b> للتحقق من مفتاح الترخيص فقط.</span><span class="en"><b>Connecting to api.lemonsqueezy.com:</b> only to verify your license key.</span></li>
+<li><span class="ar"><b>تطبيق أندرويد:</b> يفتح الملفات التي تختارها أنت فقط، ويحفظ الأغاني المعدّلة في مجلد التنزيلات عندما تطلب ذلك.</span><span class="en"><b>Android app:</b> opens only the files you choose, and saves edited songs to your Downloads folder when you ask it to.</span></li>
+</ul>
+
+<h2><span class="ar">٧. الأطفال</span><span class="en">7. Children</span></h2>
+<p><span class="ar">دوزنها لا يجمع بيانات من أي مستخدم، بمن فيهم الأطفال.</span><span class="en">Dozenha does not collect data from any user, including children.</span></p>
+
+<h2><span class="ar">٨. التغييرات والتواصل</span><span class="en">8. Changes and contact</span></h2>
+<p><span class="ar">إذا تغيّرت هذه السياسة سنحدّث التاريخ أعلاه. لأي سؤال عن الخصوصية تواصل معنا عبر صفحة دوزنها في Google Play أو متجر Chrome.</span><span class="en">If this policy changes, we will update the date above. For any privacy question, contact us through the Dozenha page on Google Play or the Chrome Web Store.</span></p>
+<!-- البريد (اختياري لاحقاً): <p>البريد: ...</p> -->
+</main>
+
+<footer><div class="wrap">
+  <span>© 2026 <span class="ar">دوزنها</span><span class="en">Dozenha</span></span>
+  <a href="help.html"><span class="ar">الشرح</span><span class="en">Help</span></a><a href="about.html"><span class="ar">من نحن</span><span class="en">About</span></a><a href="privacy.html"><span class="ar">سياسة الخصوصية</span><span class="en">Privacy policy</span></a>
+  <span><span class="ar">يعمل على أندرويد والكمبيوتر</span><span class="en">Works on Android and computers</span></span>
+</div></footer>
+<script>
+(function(){
+  var KEY='dz_lang';
+  function detect(){var l=(navigator.languages&&navigator.languages[0])||navigator.language||'ar';return /^ar/i.test(l)?'ar':'en';}
+  var lang=detect(); try{var s=localStorage.getItem(KEY); if(s==='ar'||s==='en') lang=s;}catch(e){}
+  function apply(){
+    document.body.classList.remove('lang-ar','lang-en'); document.body.classList.add('lang-'+lang);
+    document.documentElement.lang=lang; document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+    var t=document.body.getAttribute('data-title-'+lang); if(t) document.title=t;
+    var b=document.getElementById('langbtn'); if(b){b.textContent=lang==='ar'?'EN':'ع';}
+  }
+  document.getElementById('langbtn').addEventListener('click',function(){lang=lang==='ar'?'en':'ar';try{localStorage.setItem(KEY,lang);}catch(e){}apply();});
+  if(/iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)) document.body.classList.add('is-ios');
+  apply();
+})();
+</script>
+</body>
+</html>
