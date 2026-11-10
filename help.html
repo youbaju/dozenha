@@ -139,7 +139,7 @@ footer a{color:var(--muted)}
 (function(){
   var KEY='dz_lang';
   function detect(){var l=(navigator.languages&&navigator.languages[0])||navigator.language||'ar';return /^ar/i.test(l)?'ar':'en';}
-  var lang=detect(); try{var s=localStorage.getItem(KEY); if(s==='ar'||s==='en') lang=s;}catch(e){}
+  var lang=detect(); try{var s=localStorage.getItem(KEY); if(s==='ar'||s==='en') lang=s;}catch(e){} try{var q=(location.search.match(/[?&]lang=(ar|en)/)||[])[1]; if(q){lang=q; try{localStorage.setItem(KEY,q);}catch(e){}}}catch(e){}
   function apply(){
     document.body.classList.remove('lang-ar','lang-en'); document.body.classList.add('lang-'+lang);
     document.documentElement.lang=lang; document.documentElement.dir=lang==='ar'?'rtl':'ltr';
