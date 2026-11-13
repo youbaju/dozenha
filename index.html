@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>(function(){var t=null,app=false;try{var q=location.search;t=(q.match(/[?&]theme=(dark|light)/)||[])[1]||sessionStorage.getItem("dzTheme");if(t)sessionStorage.setItem("dzTheme",t);if(/[?&]lang=(ar|en)/.test(q)&&/[?&]theme=/.test(q))sessionStorage.setItem("dzApp","1");app=sessionStorage.getItem("dzApp")==="1";}catch(e){}if(t)document.documentElement.setAttribute("data-theme",t);if(app)document.documentElement.classList.add("from-app");})();</script>
+<script>(function(){try{if(!document.documentElement.classList.contains("from-app"))return;var wv=/; wv\)/.test(navigator.userAgent);document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[href]");if(!a||a.target==="_blank")return;var u=new URL(a.href,location.href);if(u.origin!==location.origin)return;e.preventDefault();location.replace(u.href);},true);document.addEventListener("DOMContentLoaded",function(){var l=document.getElementById("langbtn");if(!l)return;var en=document.documentElement.lang==="en"||document.body.classList.contains("lang-en");var b=document.createElement("button");b.className="backapp";b.type="button";b.textContent=en?"← Back":"→ رجوع";b.style.cssText="display:inline-flex;align-items:center;min-height:36px;padding:0 12px;border-radius:12px;border:0;background:var(--accent);color:#fff;font-weight:800;font-size:14px;white-space:nowrap;flex-shrink:0;cursor:pointer";b.onclick=function(){if(wv){history.back();return;}window.close();setTimeout(function(){history.back();},300);};l.parentNode.insertBefore(b,l);});}catch(e){}})();</script>
 <title>دوزنها – تحكّم في دوزان وسرعة أي أغنية</title>
 <meta name="description" content="Control the pitch & speed of any song — from YouTube, WhatsApp or your device">
 <link rel="icon" href="favicon.png">
@@ -67,6 +68,7 @@ footer a{color:var(--muted)}
 @media (max-width:640px){nav .links{gap:10px;font-size:13px}.hero h1{font-size:32px}.hero p{font-size:17px}.brand span{display:none}}
 :root[data-theme="dark"]{color-scheme:dark;--bg:#131210;--card:#1d1b18;--fg:#f1ece4;--muted:#a59d91;--line:#332f29;--accent:#e0954f;--accent2:#4a3019;--hero:#0d0c0b}
 .from-app #langbtn{display:none!important}
+nav .links a{white-space:nowrap}:root[data-theme="dark"] .backapp{color:#1a120a!important}
 </style>
 </head>
 <body class="lang-ar" data-title-ar="دوزنها – تحكّم في دوزان وسرعة أي أغنية" data-title-en="Dozenha – Control the pitch & speed of any song">
