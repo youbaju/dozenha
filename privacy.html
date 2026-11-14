@@ -70,8 +70,14 @@ footer a{color:var(--muted)}
 .from-app #langbtn{display:none!important}
 nav .links a{white-space:nowrap}:root[data-theme="dark"] .backapp{color:#1a120a!important}
 .from-app nav .wrap{gap:10px}.from-app nav .links{flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;gap:12px}.from-app nav .links::-webkit-scrollbar{display:none}.from-app nav .links a{flex-shrink:0}.from-app .backapp{margin-inline-start:2px}
-.from-app nav .links{display:none!important}.from-app nav .brand{margin-inline-start:auto}
+.from-app nav .links{display:none!important}.from-app nav .brand{display:none!important}
 .in-app-wv #pricing,.in-app-wv a[href="#pricing"],.in-app-wv .hide-in-app{display:none!important}
+footer .wrap{display:flex!important;flex-direction:column;align-items:center;gap:10px}
+footer .flinks{display:flex;flex-wrap:nowrap;justify-content:center;gap:6px}
+footer .flinks a{display:inline-flex;align-items:center;justify-content:center;min-height:32px;padding:0 11px;border:1.5px solid var(--accent);border-radius:999px;color:var(--fg)!important;font-weight:700;font-size:13px;text-decoration:none!important;white-space:nowrap}
+footer .flinks a:hover{background:var(--accent);color:#fff!important}
+@media (max-width:420px){footer .flinks{gap:4px;flex-wrap:wrap;row-gap:6px}footer .flinks a{padding:0 8px;font-size:12px;min-height:30px}}
+footer .fmeta{color:var(--muted);font-size:12.5px;font-weight:600;text-align:center}
 </style>
 </head>
 <body class="lang-ar" data-title-ar="سياسة الخصوصية – دوزنها" data-title-en="Privacy policy – Dozenha">
@@ -128,9 +134,9 @@ nav .links a{white-space:nowrap}:root[data-theme="dark"] .backapp{color:#1a120a!
 </main>
 
 <footer><div class="wrap">
-  <span>© 2026 <span class="ar">دوزنها</span><span class="en">Dozenha</span></span>
-  <a href="help.html"><span class="ar">الشرح</span><span class="en">Help</span></a><a href="about.html"><span class="ar">من نحن</span><span class="en">About</span></a><a href="privacy.html"><span class="ar">سياسة الخصوصية</span><span class="en">Privacy policy</span></a><a href="terms.html"><span class="ar">الشروط والاسترجاع</span><span class="en">Terms & refunds</span></a>
-  <span><span class="ar">يعمل على أندرويد والكمبيوتر</span><span class="en">Works on Android and computers</span></span>
+  
+  <div class="flinks"><a href="index.html"><span class="ar">عن دوزنها</span><span class="en">Overview</span></a><a href="help.html"><span class="ar">الشرح</span><span class="en">Help</span></a><a href="about.html"><span class="ar">من نحن</span><span class="en">About</span></a><a href="privacy.html"><span class="ar">الخصوصية</span><span class="en">Privacy</span></a><a href="terms.html"><span class="ar">الشروط</span><span class="en">Terms</span></a></div>
+  <span class="fmeta">© 2026 <span class="ar">دوزنها · يعمل على أندرويد والكمبيوتر</span><span class="en">Dozenha · Works on Android and computers</span></span>
 </div></footer>
 <script>
 (function(){
