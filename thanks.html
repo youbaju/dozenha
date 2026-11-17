@@ -121,6 +121,7 @@ footer a{color:var(--muted)}
 <li><span class="ar">الصق المفتاح في خانة «عندك مفتاح ترخيص؟» واضغط «تفعيل».</span><span class="en">Paste the key in the “Have a license key?” field and tap “Activate”.</span></li>
 <li><span class="ar">نفس المفتاح يعمل على جوالك وكمبيوترك، حتى 5 أجهزة.</span><span class="en">The same key works on your phone and computer, up to 5 devices.</span></li>
 </ol>
+<p style="font-size:14px;margin-top:18px"><span class="ar">لمراجعة اشتراكك أو إلغائه لاحقاً: <a href="https://test.customer.dodopayments.com/login/bus_0Ns7sfqYFIScvHftnmYzn" target="_blank" rel="noopener">صفحة إدارة الاشتراك</a> (بنفس بريدك).</span><span class="en">To review or cancel your subscription later: <a href="https://test.customer.dodopayments.com/login/bus_0Ns7sfqYFIScvHftnmYzn" target="_blank" rel="noopener">subscription management page</a> (with the same email).</span></p>
 </div>
 <div id="nokey" hidden>
 <h1><span class="ar">تم استلام طلبك</span><span class="en">Your order was received</span></h1>
@@ -143,8 +144,8 @@ footer a{color:var(--muted)}
     var c=document.createElement('code');c.textContent=k;
     var b=document.createElement('button');b.className='btn primary';b.type='button';
     var ar=document.body.classList.contains('lang-en')?false:true;
-    b.textContent=ar?'نسخ المفتاح':'Copy key';
-    b.onclick=function(){try{navigator.clipboard.writeText(k).then(function(){b.textContent=document.body.classList.contains('lang-en')?'Copied ✓':'تم النسخ ✓';});}catch(e){}};
+    b.innerHTML='<span class="ar">نسخ المفتاح</span><span class="en">Copy key</span>';
+    b.onclick=function(){try{navigator.clipboard.writeText(k).then(function(){b.innerHTML='<span class="ar">تم النسخ ✓</span><span class="en">Copied ✓</span>';});}catch(e){}};
     d.appendChild(c);d.appendChild(b);box.appendChild(d);
   });
   show('ok');
