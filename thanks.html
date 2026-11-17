@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){var t=null,app=false;try{var q=location.search;t=(q.match(/[?&]theme=(dark|light)/)||[])[1]||sessionStorage.getItem("dzTheme");if(t)sessionStorage.setItem("dzTheme",t);if(/[?&]lang=(ar|en)/.test(q)&&/[?&]theme=/.test(q))sessionStorage.setItem("dzApp","1");app=sessionStorage.getItem("dzApp")==="1";}catch(e){}if(t)document.documentElement.setAttribute("data-theme",t);if(app)document.documentElement.classList.add("from-app");if(app&&/; wv\)/.test(navigator.userAgent))document.documentElement.classList.add("in-app-wv");})();</script>
+<script>(function(){try{if(!document.documentElement.classList.contains("from-app"))return;var wv=/; wv\)/.test(navigator.userAgent),mob=/Android|iPhone|Mobile/.test(navigator.userAgent);document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[href]");if(!a||a.target==="_blank")return;var u=new URL(a.href,location.href);if(u.origin!==location.origin)return;e.preventDefault();location.replace(u.href);},true);document.addEventListener("DOMContentLoaded",function(){var l=document.getElementById("langbtn");if(!l||(mob&&!wv))return;var en=document.documentElement.lang==="en"||document.body.classList.contains("lang-en");var b=document.createElement("button");b.className="backapp";b.type="button";b.dir=en?"ltr":"rtl";b.innerHTML=(en?'<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>':'<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>')+"<span>"+(en?"Back":"رجوع")+"</span>";b.style.cssText="display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 12px;border-radius:12px;border:0;background:var(--accent);color:#fff;font-weight:800;font-size:14px;white-space:nowrap;flex-shrink:0;cursor:pointer";b.onclick=function(){if(wv){history.back();return;}window.close();setTimeout(function(){history.back();},300);};l.parentNode.insertBefore(b,l.parentNode.firstChild);});}catch(e){}})();</script>
+<title>شكراً – دوزنها</title>
+<meta name="description" content="Control the pitch & speed of any song — from YouTube, WhatsApp or your device">
+<link rel="icon" href="favicon.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
+@media (max-width:760px){.plans{grid-template-columns:1fr}}
+.plans .card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;position:relative}
+.plans .btn{width:100%;margin-top:auto;justify-content:center}
+.plans .btn.ghost{background:transparent;color:var(--accent);border:2px solid var(--accent)}
+.plans .card p{margin-bottom:10px}
+.keybox{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;margin:14px 0}
+.keybox code{font:700 17px/1.6 ui-monospace,Consolas,monospace;direction:ltr;background:var(--card);border:2px dashed var(--accent);border-radius:12px;padding:10px 14px;word-break:break-all;user-select:all}
+.steps-n{max-width:560px;margin:12px auto;text-align:start}
+.center{text-align:center}
+
+@font-face{font-family:DZCairo;src:url(fonts/cairo-arabic-wght-normal.woff2) format('woff2');font-weight:200 1000;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0897-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC}
+@font-face{font-family:DZCairo;src:url(fonts/cairo-latin-wght-normal.woff2) format('woff2');font-weight:200 1000;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+:root{--bg:#f6f3ee;--card:#fffdf9;--fg:#1f1c18;--muted:#6f675d;--line:#e4ddd2;--accent:#b5651d;--accent2:#f1dcc6;--hero:#2a2622}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#131210;--card:#1d1b18;--fg:#f1ece4;--muted:#a59d91;--line:#332f29;--accent:#e0954f;--accent2:#4a3019;--hero:#0d0c0b}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#131210;--card:#1d1b18;--fg:#f1ece4;--muted:#a59d91;--line:#332f29;--accent:#e0954f;--accent2:#4a3019;--hero:#0d0c0b}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.8 DZCairo,system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif}
+body.lang-ar .en,body.lang-en .ar{display:none!important}
+.from-app #langbtn{display:none!important}
+footer .wrap{display:flex!important;flex-direction:column;align-items:center;gap:10px}
+footer .flinks{display:flex;flex-wrap:nowrap;justify-content:center;gap:6px}
+footer .flinks a{display:inline-flex;align-items:center;justify-content:center;min-height:32px;padding:0 11px;border:1.5px solid var(--accent);border-radius:999px;color:var(--fg)!important;font-weight:700;font-size:13px;text-decoration:none!important;white-space:nowrap}
+footer .flinks a:hover{background:var(--accent);color:#fff!important}
+@media (max-width:420px){footer .flinks{gap:4px;flex-wrap:wrap;row-gap:6px}footer .flinks a{padding:0 8px;font-size:12px;min-height:30px}}
+footer .fmeta{color:var(--muted);font-size:12.5px;font-weight:600;text-align:center}
+.in-app-wv #pricing,.in-app-wv a[href="#pricing"],.in-app-wv .hide-in-app{display:none!important}
+nav .links a{white-space:nowrap}.from-app nav .links{display:none!important}.from-app nav .brand{display:none!important}.from-app nav .wrap{gap:10px}.from-app nav .links{flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;gap:12px}.from-app nav .links::-webkit-scrollbar{display:none}.from-app nav .links a{flex-shrink:0}.from-app .backapp{margin-inline-start:2px}:root[data-theme="dark"] .backapp{color:#1a120a!important}
+a{color:var(--accent)}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+nav{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:14px;height:60px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:19px;color:var(--fg);text-decoration:none}
+.brand img{width:32px;height:32px;border-radius:9px}
+nav .links{display:flex;gap:16px;margin-inline-start:auto;font-size:15px}
+nav .links a{color:var(--fg);text-decoration:none;opacity:.8}
+nav .links a:hover,nav .links a.on{opacity:1;color:var(--accent)}
+.langbtn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);background:transparent;color:var(--fg);border-radius:9px;min-width:40px;height:34px;font:600 14px DZCairo,system-ui;cursor:pointer}
+.hero{background:var(--hero);color:#fff;padding:56px 0 64px;text-align:center}
+.hero img{width:96px;height:96px;border-radius:26px;box-shadow:0 12px 34px rgba(181,101,29,.45)}
+.hero h1{font-size:40px;margin:14px 0 4px}
+.hero p{font-size:20px;color:#e8dccd;margin:0 auto;max-width:640px}
+.cta{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:26px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:12px;font-weight:700;text-decoration:none;border:0;cursor:pointer;font-size:16px}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.ghost{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.25)}
+.btn.soon{opacity:.6;pointer-events:none}
+.note-small{font-size:14px;color:#cbbfae;margin-top:12px}
+.iphone{display:none;background:#5a3415;color:#fff;border-radius:14px;padding:14px;margin:22px auto 0;max-width:620px}
+body.is-ios .iphone{display:block}
+section{padding:46px 0}
+h2{font-size:28px;margin:0 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.card h3{margin:0 0 6px;font-size:18px}
+.card p{margin:0;color:var(--muted)}
+.ico{font-size:26px}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0}
+.steps li{counter-increment:s;position:relative;padding-inline-start:46px;margin:12px 0}
+.steps li::before{content:counter(s);position:absolute;inset-inline-start:0;top:0;width:32px;height:32px;border-radius:50%;background:var(--accent2);color:var(--accent);font-weight:800;display:flex;align-items:center;justify-content:center}
+.price{text-align:center}
+.price .amt{font-size:30px;font-weight:800;color:var(--accent)}
+.price .was{font-size:17px;color:var(--muted);text-decoration:line-through;margin:0 8px;font-weight:600;unicode-bidi:isolate}
+.launch{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;padding:4px 14px;font-weight:800;font-size:14px;margin:4px 0 10px}
+.price.best{border:2px solid var(--accent)}
+.badge{display:inline-block;background:var(--accent);color:#fff;border-radius:20px;padding:0 10px;font-size:13px}
+.platforms{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.platforms span{background:var(--card);border:1px solid var(--line);border-radius:30px;padding:4px 14px}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:8px 0}
+summary{font-weight:700;cursor:pointer}
+.doc{max-width:760px}
+.doc h1{font-size:32px;margin:30px 0 4px}
+.doc h2{font-size:21px;margin:28px 0 8px}
+.doc h3{font-size:17px;margin:20px 0 4px;color:var(--accent)}
+.doc p.note{background:var(--card);border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:10px;padding:10px 14px;font-size:15px}
+.doc .date{color:var(--muted)}
+.doc figure.shot{margin:14px auto 18px;text-align:center;max-width:380px}
+.doc figure.shot img{width:100%;height:auto;border-radius:14px;border:1px solid var(--line);box-shadow:0 6px 22px rgba(0,0,0,.12);display:block}
+.doc figure.shot figcaption{color:var(--muted);font-size:14px;margin-top:6px}
+.doc figure.shot .dk{display:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .doc figure.shot .lt{display:none}:root:not([data-theme="light"]) .doc figure.shot .dk{display:block}}
+:root[data-theme="dark"] .doc figure.shot .lt{display:none}:root[data-theme="dark"] .doc figure.shot .dk{display:block}
+.doc .ic{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;vertical-align:middle;margin-inline-end:6px}
+.doc .ic svg{width:16px;height:16px}.doc .ic.red{background:#c0392b}.doc .ic.ol{background:transparent;color:var(--accent);border:2px solid var(--accent)}
+.doc ul.keys{list-style:none;padding:0}.doc ul.keys li{margin:8px 0}
+
+footer{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+footer a{color:var(--muted)}
+@media (max-width:640px){nav .links{gap:10px;font-size:13px}.hero h1{font-size:32px}.hero p{font-size:17px}.brand span{display:none}}
+</style>
+</head>
+<body class="lang-ar" data-title-ar="شكراً – دوزنها" data-title-en="Thank you – Dozenha">
+<nav><div class="wrap">
+  <a class="brand" href="index.html"><img src="icon.svg" alt=""><span><span class="ar">دوزنها</span><span class="en">Dozenha</span></span></a>
+  <div class="links"><a href="index.html"><span class="ar">الرئيسية</span><span class="en">Home</span></a><a href="help.html"><span class="ar">الشرح</span><span class="en">Help</span></a><a href="about.html"><span class="ar">من نحن</span><span class="en">About</span></a><a href="privacy.html"><span class="ar">الخصوصية</span><span class="en">Privacy</span></a><a href="terms.html"><span class="ar">الشروط</span><span class="en">Terms</span></a></div>
+  <button class="langbtn" id="langbtn" aria-label="Language">EN</button>
+</div></nav>
+
+<main class="wrap doc center">
+<div id="ok" hidden>
+<h1><span class="ar">شكراً لاشتراكك في دوزنها برو 🎉</span><span class="en">Thank you for subscribing to Dozenha Pro 🎉</span></h1>
+<p><span class="ar">هذا مفتاح الترخيص. انسخه واحفظه، وأرسلناه إلى بريدك أيضاً:</span><span class="en">Here is your license key. Copy and keep it — we also emailed it to you:</span></p>
+<div id="keys"></div>
+<ol class="steps-n">
+<li><span class="ar">افتح دوزنها: لوحة يوتيوب أو مشغّل الملفات.</span><span class="en">Open Dozenha: the YouTube panel or the file player.</span></li>
+<li><span class="ar">اضغط شارة «تجربة» أو «اشترك» في الأعلى.</span><span class="en">Tap the “Trial” or “Subscribe” badge at the top.</span></li>
+<li><span class="ar">الصق المفتاح في خانة «عندك مفتاح ترخيص؟» واضغط «تفعيل».</span><span class="en">Paste the key in the “Have a license key?” field and tap “Activate”.</span></li>
+<li><span class="ar">نفس المفتاح يعمل على جوالك وكمبيوترك، حتى 5 أجهزة.</span><span class="en">The same key works on your phone and computer, up to 5 devices.</span></li>
+</ol>
+</div>
+<div id="nokey" hidden>
+<h1><span class="ar">تم استلام طلبك</span><span class="en">Your order was received</span></h1>
+<p><span class="ar">سيصلك مفتاح الترخيص على بريدك خلال دقائق. إذا لم يصل، تفقّد مجلد الرسائل غير المرغوب فيها.</span><span class="en">Your license key will arrive by email within minutes. If it doesn’t, check your spam folder.</span></p>
+</div>
+<div id="fail" hidden>
+<h1><span class="ar">لم تكتمل عملية الدفع</span><span class="en">The payment didn’t go through</span></h1>
+<p><span class="ar">لم يُخصم أي مبلغ. يمكنك المحاولة مرة أخرى.</span><span class="en">You were not charged. You can try again.</span></p>
+<p><a class="btn primary" href="buy.html"><span class="ar">الرجوع إلى الخطط</span><span class="en">Back to plans</span></a></p>
+</div>
+</main>
+<script>(function(){
+  var q=new URLSearchParams(location.search), st=(q.get('status')||'').toLowerCase(), keys=(q.get('license_key')||'').split(',').map(function(k){return k.trim();}).filter(Boolean);
+  function show(id){document.getElementById(id).hidden=false;}
+  if(/fail|cancel/.test(st)){show('fail');return;}
+  if(!keys.length){show('nokey');return;}
+  var box=document.getElementById('keys');
+  keys.forEach(function(k){
+    var d=document.createElement('div');d.className='keybox';
+    var c=document.createElement('code');c.textContent=k;
+    var b=document.createElement('button');b.className='btn primary';b.type='button';
+    var ar=document.body.classList.contains('lang-en')?false:true;
+    b.textContent=ar?'نسخ المفتاح':'Copy key';
+    b.onclick=function(){try{navigator.clipboard.writeText(k).then(function(){b.textContent=document.body.classList.contains('lang-en')?'Copied ✓':'تم النسخ ✓';});}catch(e){}};
+    d.appendChild(c);d.appendChild(b);box.appendChild(d);
+  });
+  show('ok');
+})();</script>
+
+<footer><div class="wrap">
+  <div class="flinks"><a href="index.html"><span class="ar">عن دوزنها</span><span class="en">Overview</span></a><a href="help.html"><span class="ar">الشرح</span><span class="en">Help</span></a><a href="about.html"><span class="ar">من نحن</span><span class="en">About</span></a><a href="privacy.html"><span class="ar">الخصوصية</span><span class="en">Privacy</span></a><a href="terms.html"><span class="ar">الشروط</span><span class="en">Terms</span></a></div>
+  <span class="fmeta">© 2026 <span class="ar">دوزنها · يعمل على أندرويد والكمبيوتر</span><span class="en">Dozenha · Works on Android and computers</span></span>
+</div></footer>
+<script>
+(function(){
+  var KEY='dz_lang';
+  function detect(){var l=(navigator.languages&&navigator.languages[0])||navigator.language||'ar';return /^ar/i.test(l)?'ar':'en';}
+  var lang=detect(); try{var s=localStorage.getItem(KEY); if(s==='ar'||s==='en') lang=s;}catch(e){} try{var q=(location.search.match(/[?&]lang=(ar|en)/)||[])[1]; if(q){lang=q; try{localStorage.setItem(KEY,q);}catch(e){}}}catch(e){}
+  function apply(){
+    document.body.classList.remove('lang-ar','lang-en'); document.body.classList.add('lang-'+lang);
+    document.documentElement.lang=lang; document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+    var t=document.body.getAttribute('data-title-'+lang); if(t) document.title=t;
+    var b=document.getElementById('langbtn'); if(b){b.innerHTML='<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="display:block"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><ellipse cx="12" cy="12" rx="4" ry="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18M4.5 7.5h15M4.5 16.5h15" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';b.title=lang==='ar'?'English':'العربية';}
+  }
+  document.getElementById('langbtn').addEventListener('click',function(){lang=lang==='ar'?'en':'ar';try{localStorage.setItem(KEY,lang);}catch(e){}apply();});
+  if(/iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)) document.body.classList.add('is-ios');
+  apply();
+})();
+</script>
+</body>
+</html>
