@@ -26,6 +26,8 @@
   td{padding:4px 2px;border-bottom:1px solid var(--line)} td:last-child{text-align:left;direction:ltr}
   label.chk{display:flex;gap:8px;align-items:center;font-size:14px;margin-top:6px}
   .hidden{display:none}
+  .seg button{background:transparent;color:var(--fg);border:2px solid var(--line)}
+  .seg button.on{background:var(--accent2);border-color:var(--accent);color:var(--fg)}
 </style>
 </head>
 <body>
@@ -48,6 +50,7 @@
       <button id="full" class="ghost" disabled>الأغنية كاملة</button>
     </div>
     <label class="chk"><input type="checkbox" id="hiq"> الإبقاء على الترددات العالية (صفاء أكثر، وقد يبقى أثر خفيف من الصوت)</label>
+    <label class="chk"><input type="checkbox" id="smooth"> تنعيم الموسيقى (تقطيع أقل، وقد يبقى أثر أوضح قليلاً من الصوت)</label>
     <div class="bar"><i id="prog"></i></div>
     <div class="muted" id="status">جاهز.</div>
   </div>
@@ -57,10 +60,14 @@
     <div class="big" id="speed">—</div>
     <div id="verdict" style="text-align:center;font-weight:700"></div>
     <div class="row" style="margin-top:8px">
-      <button id="playMusic">▶ الموسيقى بدون صوت</button>
-      <button id="playOrig" class="ghost">▶ الأصل</button>
+      <button id="playBtn">▶ تشغيل</button>
+      <button id="stop" class="ghost">■ إيقاف</button>
     </div>
-    <button id="stop" class="ghost">■ إيقاف</button>
+    <div class="muted" style="margin-top:6px">أثناء التشغيل اضغط للتبديل بينهما من نفس المكان:</div>
+    <div class="row seg">
+      <button id="selMusic" class="on">الموسيقى بدون صوت</button>
+      <button id="selOrig">الأصل</button>
+    </div>
     <table id="info"></table>
     <div class="muted" style="margin-top:8px">صوّر هذه النتيجة وأرسلها.</div>
   </div>
@@ -75,7 +82,7 @@
   var W = 4096, H = 1024, T = 512, F = 1024, NB = W / 2 + 1, SR = 44100;
   var $ = function (id) { return document.getElementById(id); };
   var fileBuf = null, origBuf = null, outBuf = null, session = null, player = null, actx = null;
-  var stats = {};
+  var stats = {}, lastStart = 0;
 
   /* ---------- FFT (radix-2، طول 4096) ---------- */
   var rev = new Uint16Array(W), cosT = new Float64Array(W / 2), sinT = new Float64Array(W / 2);
@@ -173,6 +180,7 @@
     var L = origBuf.getChannelData(0), R = origBuf.numberOfChannels > 1 ? origBuf.getChannelData(1) : L;
     var start = 0, len = L.length;
     if (quick) { var want = Math.min(len, 3 * T * H); start = Math.max(0, Math.floor((len - want) / 2)); len = want; }
+    lastStart = start;
     loadModel().then(function () { return separate(L, R, start, len); }).then(function (res) {
       outBuf = res.out; showResult(res, quick);
     }).catch(function (e) {
@@ -181,7 +189,7 @@
   }
 
   function separate(L, R, start, len) {
-    var keepHigh = $('hiq').checked;
+    var keepHigh = $('hiq').checked, smooth = $('smooth').checked;
     var N = len, nFrames = Math.ceil(N / H) + 4;                      // الإطار f يبدأ عند العينة f*H - W (مثل حشو Spleeter)
     var nChunks = Math.ceil(nFrames / T);
     var outB = actx.createBuffer(2, N, SR), outL = outB.getChannelData(0), outR = outB.getChannelData(1); // نكتب مباشرة في مخزن الصوت لتوفير الذاكرة
@@ -218,14 +226,21 @@
           var feeds = {}; feeds[session.inputNames[0]] = new ort.Tensor('float32', mag, [1, T, F, 2]);
           session.run(feeds).then(function (out) {
             var v = out[session.outputNames[0]].data, a = out[session.outputNames[1]].data, eps = 1e-10;
+            var MA = new Float32Array(T * F * 2), m2;
+            for (m2 = 0; m2 < MA.length; m2++) { var vv = v[m2] * v[m2], aa = a[m2] * a[m2]; MA[m2] = (aa + eps / 2) / (vv + aa + eps); }
+            if (smooth) {   /* تنعيم زمني: متوسط 5 إطارات متجاورة (نحو 0.1 ثانية) يقلل التقطّع */
+              var SM = new Float32Array(MA.length), row = F * 2;
+              for (t = 0; t < T; t++) {
+                var t0s = Math.max(0, t - 2), t1s = Math.min(T - 1, t + 2), cnt = t1s - t0s + 1;
+                for (var j = 0; j < row; j++) { var sum = 0; for (var tt = t0s; tt <= t1s; tt++) sum += MA[tt * row + j]; SM[t * row + j] = sum / cnt; }
+              }
+              MA = SM;
+            }
             for (t = 0; t < T; t++) {
               var fr2 = f0 + t; if (fr2 >= nFrames) break;
               var avg = [0, 0];
               var maskRow = [new Float32Array(F), new Float32Array(F)];
-              for (f = 0; f < F; f++) for (c = 0; c < 2; c++) {
-                var m2 = (t * F + f) * 2 + c, vv = v[m2] * v[m2], aa = a[m2] * a[m2];
-                var mk = (aa + eps / 2) / (vv + aa + eps); maskRow[c][f] = mk; avg[c] += mk;
-              }
+              for (f = 0; f < F; f++) for (c = 0; c < 2; c++) { var mk = MA[(t * F + f) * 2 + c]; maskRow[c][f] = mk; avg[c] += mk; }
               avg[0] /= F; avg[1] /= F;
               // iSTFT: نبني الطيف الكامل للقناتين معاً ثم FFT عكسي واحد
               for (f = 0; f < NB; f++) {
@@ -279,6 +294,7 @@
       ['تنزيل النموذج', stats.download ? stats.download.toFixed(1) + ' s' : 'مخزّن'],
       ['تجهيز النموذج', stats.init ? stats.init.toFixed(1) + ' s' : '—'],
       ['الترددات العالية', $('hiq').checked ? 'نعم' : 'لا'],
+      ['التنعيم', $('smooth').checked ? 'نعم' : 'لا'],
       ['النوع', quick ? 'سريعة' : 'كاملة']
     ];
     $('info').innerHTML = rows.map(function (r) { return '<tr><td>' + r[0] + '</td><td>' + r[1] + '</td></tr>'; }).join('');
@@ -287,18 +303,36 @@
     stats.download = 0; stats.init = 0;
   }
 
-  function play(buf, offset) {
-    stopPlay(); if (!buf) return;
+  /* تشغيل الاثنين معاً متزامنين، والتبديل بينهما بتغيير مستوى الصوت فقط، فيبقى المكان نفسه */
+  var listen = 'music', gM = null, gO = null;
+  function playBoth() {
+    stopPlay(); if (!outBuf || !origBuf) return;
     if (actx.state !== 'running') actx.resume();
-    player = actx.createBufferSource(); player.buffer = buf; player.connect(actx.destination); player.start(0, offset || 0);
+    var off = outBuf.length < origBuf.length ? lastStart / SR : 0;     // في التجربة السريعة: نفس المقطع من الأصل
+    var sM = actx.createBufferSource(), sO = actx.createBufferSource();
+    sM.buffer = outBuf; sO.buffer = origBuf;
+    gM = actx.createGain(); gO = actx.createGain(); setGains(true);
+    sM.connect(gM).connect(actx.destination); sO.connect(gO).connect(actx.destination);
+    var at = actx.currentTime + 0.05;
+    sM.start(at, 0); sO.start(at, off, outBuf.duration);
+    sM.onended = function () { if (player && player[0] === sM) stopPlay(); };
+    player = [sM, sO];
   }
-  function stopPlay() { if (player) { try { player.stop(); } catch (e) {} player = null; } }
-  $('playMusic').onclick = function () { play(outBuf); };
-  $('playOrig').onclick = function () {
-    if (!origBuf || !outBuf) return;
-    var off = outBuf.length < origBuf.length ? (origBuf.length - outBuf.length) / 2 / SR : 0;   // نفس المقطع في التجربة السريعة
-    play(origBuf, off);
-  };
+  function setGains(now) {
+    if (!gM) return;
+    var t = actx.currentTime, m = listen === 'music' ? 1 : 0;
+    gM.gain.cancelScheduledValues(t); gO.gain.cancelScheduledValues(t);
+    if (now) { gM.gain.value = m; gO.gain.value = 1 - m; return; }
+    gM.gain.setTargetAtTime(m, t, 0.015); gO.gain.setTargetAtTime(1 - m, t, 0.015);
+  }
+  function choose(w) {
+    listen = w; $('selMusic').classList.toggle('on', w === 'music'); $('selOrig').classList.toggle('on', w === 'orig');
+    if (player) setGains(false); else playBoth();
+  }
+  function stopPlay() { if (player) { player.forEach(function (s) { try { s.stop(); } catch (e) {} }); player = null; gM = gO = null; } }
+  $('playBtn').onclick = playBoth;
+  $('selMusic').onclick = function () { choose('music'); };
+  $('selOrig').onclick = function () { choose('orig'); };
   $('stop').onclick = stopPlay;
   $('quick').onclick = function () { run(true); };
   $('full').onclick = function () { run(false); };
