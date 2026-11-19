@@ -105,15 +105,21 @@
   /* ---------- اختيار الملف ---------- */
   $('file').addEventListener('change', function (e) {
     var f = e.target.files[0]; if (!f) return;
+    /* أغنية جديدة: نمسح نتيجة الأغنية السابقة تماماً */
+    stopPlay(); outBuf = null; origBuf = null;
+    $('result').classList.add('hidden'); setProg(0); setStatus('جاهز.');
+    $('quick').disabled = $('full').disabled = true;
     $('fname').textContent = 'جارٍ قراءة الملف…';
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)({ sampleRate: SR });
     f.arrayBuffer().then(function (ab) {
-      actx = actx || new (window.AudioContext || window.webkitAudioContext)({ sampleRate: SR });
-      return actx.decodeAudioData(ab);
+      return new Promise(function (res, rej) { actx.decodeAudioData(ab, res, rej); }); // صيغة الاستدعاء تعمل في كل المتصفحات
     }).then(function (buf) {
       origBuf = buf; fileBuf = f;
       $('fname').textContent = f.name + ' · ' + Math.round(buf.duration) + ' ثانية';
       $('quick').disabled = false; $('full').disabled = false;
-    }).catch(function () { $('fname').textContent = 'تعذّرت قراءة هذا الملف. جرّب ملف MP3.'; });
+    }).catch(function (err) {
+      $('fname').textContent = 'تعذّرت قراءة هذا الملف (' + f.name + '). جرّب ملف MP3. ' + (err && err.name ? '[' + err.name + ']' : '');
+    }).then(function () { e.target.value = ''; }); // يسمح باختيار نفس الملف مرة أخرى
   });
 
   /* ---------- تحميل النموذج ---------- */
