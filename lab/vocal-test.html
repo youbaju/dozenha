@@ -122,7 +122,8 @@
     var t0 = performance.now(), parts = 8, got = 0, total = 78672419, bufs = [];
     setStatus('جارٍ تنزيل النموذج… 0%');
     function getPart(i) {
-      return fetch('model/unet.part' + i).then(function (r) {
+      /* ملفات النموذج بجانب الصفحة مباشرة، أو داخل مجلد model */
+      return fetch('unet.part' + i).then(function (r) { return r.ok ? r : fetch('model/unet.part' + i); }).then(function (r) {
         if (!r.ok) throw new Error('model ' + r.status);
         var reader = r.body.getReader(), chunks = [];
         function pump() {
