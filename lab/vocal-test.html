@@ -103,6 +103,13 @@
   for (var i0 = 0; i0 < W; i0++) win[i0] = 0.5 - 0.5 * Math.cos(2 * Math.PI * i0 / W); // هان دورية مثل Spleeter
 
   /* ---------- اختيار الملف ---------- */
+  /* قبل فتح منتقي الملفات نحرر ذاكرة الأغنية السابقة، حتى لا يغلق أندرويد الصفحة لنقص الذاكرة أثناء الاختيار */
+  function freeSong() {
+    stopPlay(); outBuf = null; origBuf = null;
+    $('result').classList.add('hidden'); setProg(0);
+  }
+  document.querySelector('label[for=file]').addEventListener('pointerdown', freeSong);
+  document.querySelector('label[for=file]').addEventListener('click', freeSong);
   $('file').addEventListener('change', function (e) {
     var f = e.target.files[0]; if (!f) return;
     /* أغنية جديدة: نمسح نتيجة الأغنية السابقة تماماً */
@@ -177,7 +184,7 @@
     var keepHigh = $('hiq').checked;
     var N = len, nFrames = Math.ceil(N / H) + 4;                      // الإطار f يبدأ عند العينة f*H - W (مثل حشو Spleeter)
     var nChunks = Math.ceil(nFrames / T);
-    var outL = new Float32Array(N), outR = new Float32Array(N);
+    var outB = actx.createBuffer(2, N, SR), outL = outB.getChannelData(0), outR = outB.getChannelData(1); // نكتب مباشرة في مخزن الصوت لتوفير الذاكرة
     var specRe = [new Float32Array(T * NB), new Float32Array(T * NB)], specIm = [new Float32Array(T * NB), new Float32Array(T * NB)];
     var mag = new Float32Array(T * F * 2);
     var re = new Float64Array(W), im = new Float64Array(W);
@@ -189,8 +196,7 @@
         try {
           if (k >= nChunks) {
             var total = (performance.now() - tStart) / 1000;
-            var b = actx.createBuffer(2, N, SR); b.copyToChannel(outL, 0); b.copyToChannel(outR, 1);
-            resolve({ out: b, total: total, chunks: chunkTimes, seconds: N / SR });
+            resolve({ out: outB, total: total, chunks: chunkTimes, seconds: N / SR });
             return;
           }
           var t0 = performance.now(), f0 = k * T, t, f, c;
