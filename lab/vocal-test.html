@@ -68,6 +68,12 @@
       <button id="selMusic" class="on">الموسيقى بدون صوت</button>
       <button id="selOrig">الأصل</button>
     </div>
+    <div class="muted" id="ppos" style="text-align:center;direction:ltr"></div>
+    <button id="alt" class="ghost">لا أسمع صوتاً؟ جرّب التشغيل البديل</button>
+    <div id="altbox" class="hidden">
+      <div class="muted">الموسيقى بدون صوت:</div><audio id="aMusic" controls style="width:100%"></audio>
+      <div class="muted">الأصل:</div><audio id="aOrig" controls style="width:100%"></audio>
+    </div>
     <table id="info"></table>
     <div class="muted" style="margin-top:8px">صوّر هذه النتيجة وأرسلها.</div>
   </div>
@@ -114,14 +120,14 @@
   function freeSong() {
     stopPlay(); outBuf = null; origBuf = null;
     $('result').classList.add('hidden'); setProg(0);
+    if ($('altbox')) { $('altbox').classList.add('hidden'); $('aMusic').removeAttribute('src'); $('aOrig').removeAttribute('src'); }
   }
   document.querySelector('label[for=file]').addEventListener('pointerdown', freeSong);
   document.querySelector('label[for=file]').addEventListener('click', freeSong);
   $('file').addEventListener('change', function (e) {
     var f = e.target.files[0]; if (!f) return;
     /* أغنية جديدة: نمسح نتيجة الأغنية السابقة تماماً */
-    stopPlay(); outBuf = null; origBuf = null;
-    $('result').classList.add('hidden'); setProg(0); setStatus('جاهز.');
+    freeSong(); setStatus('جاهز.');
     $('quick').disabled = $('full').disabled = true;
     $('fname').textContent = 'جارٍ قراءة الملف…';
     actx = actx || new (window.AudioContext || window.webkitAudioContext)({ sampleRate: SR });
@@ -305,22 +311,33 @@
 
   /* تشغيل الاثنين معاً متزامنين، والتبديل بينهما بتغيير مستوى الصوت فقط، فيبقى المكان نفسه */
   var listen = 'music', gM = null, gO = null;
+  /* سياق تشغيل منفصل بمعدّل الجهاز الافتراضي، يُنشأ عند الضغط ونستأنفه قبل البدء (بعض الجوالات تبقيه صامتاً) */
+  var pctx = null, posTimer = null, playAt = 0;
   function playBoth() {
     stopPlay(); if (!outBuf || !origBuf) return;
-    if (actx.state !== 'running') actx.resume();
-    var off = outBuf.length < origBuf.length ? lastStart / SR : 0;     // في التجربة السريعة: نفس المقطع من الأصل
-    var sM = actx.createBufferSource(), sO = actx.createBufferSource();
-    sM.buffer = outBuf; sO.buffer = origBuf;
-    gM = actx.createGain(); gO = actx.createGain(); setGains(true);
-    sM.connect(gM).connect(actx.destination); sO.connect(gO).connect(actx.destination);
-    var at = actx.currentTime + 0.05;
-    sM.start(at, 0); sO.start(at, off, outBuf.duration);
-    sM.onended = function () { if (player && player[0] === sM) stopPlay(); };
-    player = [sM, sO];
+    if (!pctx || pctx.state === 'closed') pctx = new (window.AudioContext || window.webkitAudioContext)();
+    var go = function () {
+      var off = outBuf.length < origBuf.length ? lastStart / SR : 0;     // في التجربة السريعة: نفس المقطع من الأصل
+      var sM = pctx.createBufferSource(), sO = pctx.createBufferSource();
+      sM.buffer = outBuf; sO.buffer = origBuf;
+      gM = pctx.createGain(); gO = pctx.createGain(); setGains(true);
+      sM.connect(gM); gM.connect(pctx.destination); sO.connect(gO); gO.connect(pctx.destination);
+      playAt = pctx.currentTime + 0.1;
+      sM.start(playAt, 0); sO.start(playAt, off, outBuf.duration);
+      sM.onended = function () { if (player && player[0] === sM) stopPlay(); };
+      player = [sM, sO];
+      clearInterval(posTimer);
+      posTimer = setInterval(function () {
+        var t = Math.max(0, pctx.currentTime - playAt);
+        $('ppos').textContent = '▶ ' + Math.floor(t / 60) + ':' + ('0' + Math.floor(t % 60)).slice(-2) + ' / ' + Math.floor(outBuf.duration / 60) + ':' + ('0' + Math.floor(outBuf.duration % 60)).slice(-2) + (pctx.state !== 'running' ? '  (' + pctx.state + ')' : '');
+      }, 250);
+    };
+    var r = pctx.state === 'running' ? Promise.resolve() : pctx.resume();
+    (r && r.then ? r : Promise.resolve()).then(go, go);
   }
   function setGains(now) {
     if (!gM) return;
-    var t = actx.currentTime, m = listen === 'music' ? 1 : 0;
+    var t = pctx.currentTime, m = listen === 'music' ? 1 : 0;
     gM.gain.cancelScheduledValues(t); gO.gain.cancelScheduledValues(t);
     if (now) { gM.gain.value = m; gO.gain.value = 1 - m; return; }
     gM.gain.setTargetAtTime(m, t, 0.015); gO.gain.setTargetAtTime(1 - m, t, 0.015);
@@ -329,7 +346,26 @@
     listen = w; $('selMusic').classList.toggle('on', w === 'music'); $('selOrig').classList.toggle('on', w === 'orig');
     if (player) setGains(false); else playBoth();
   }
-  function stopPlay() { if (player) { player.forEach(function (s) { try { s.stop(); } catch (e) {} }); player = null; gM = gO = null; } }
+  function stopPlay() { clearInterval(posTimer); if ($('ppos')) $('ppos').textContent = ''; if (player) { player.forEach(function (s) { try { s.stop(); } catch (e) {} }); player = null; gM = gO = null; } }
+  /* تشغيل بديل: نحوّل الصوت إلى ملف WAV ونشغّله بمشغّل المتصفح العادي */
+  function toWav(buf, from, len) {
+    var ch = [buf.getChannelData(0), buf.numberOfChannels > 1 ? buf.getChannelData(1) : buf.getChannelData(0)];
+    var n = len, dv = new DataView(new ArrayBuffer(44 + n * 4)), p = 0;
+    function str(x) { for (var i = 0; i < x.length; i++) dv.setUint8(p++, x.charCodeAt(i)); }
+    function u32(x) { dv.setUint32(p, x, true); p += 4; } function u16(x) { dv.setUint16(p, x, true); p += 2; }
+    str('RIFF'); u32(36 + n * 4); str('WAVE'); str('fmt '); u32(16); u16(1); u16(2); u32(buf.sampleRate); u32(buf.sampleRate * 4); u16(4); u16(16); str('data'); u32(n * 4);
+    for (var i = 0; i < n; i++) for (var c = 0; c < 2; c++) { var v = Math.max(-1, Math.min(1, ch[c][from + i])); dv.setInt16(p, v < 0 ? v * 0x8000 : v * 0x7fff, true); p += 2; }
+    return URL.createObjectURL(new Blob([dv.buffer], { type: 'audio/wav' }));
+  }
+  var altUrls = [];
+  $('alt').onclick = function () {
+    if (!outBuf || !origBuf) return; stopPlay();
+    altUrls.forEach(function (u) { URL.revokeObjectURL(u); });
+    var off = outBuf.length < origBuf.length ? lastStart : 0;
+    altUrls = [toWav(outBuf, 0, outBuf.length), toWav(origBuf, off, outBuf.length)];
+    $('aMusic').src = altUrls[0]; $('aOrig').src = altUrls[1];
+    $('altbox').classList.remove('hidden');
+  };
   $('playBtn').onclick = playBoth;
   $('selMusic').onclick = function () { choose('music'); };
   $('selOrig').onclick = function () { choose('orig'); };
