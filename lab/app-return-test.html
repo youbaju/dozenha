@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>اختبار الرجوع إلى دوزنها</title>
+<style>
+  :root{--bg:#f5f2ec;--card:#fffdf9;--fg:#2b211a;--muted:#6b5a4c;--accent:#b5651d;--line:#e3d8cc}
+  @media (prefers-color-scheme:dark){:root{--bg:#131210;--card:#1d1b18;--fg:#f1ece4;--muted:#cfc6b8;--accent:#e0954f;--line:#322e28}}
+  body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.7 system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif}
+  main{max-width:520px;margin:0 auto;padding:16px}
+  h1{font-size:21px;margin:4px 0 8px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
+  .card h2{font-size:16px;margin:0 0 6px}
+  a.btn,button{display:flex;align-items:center;justify-content:center;width:100%;box-sizing:border-box;min-height:50px;border:0;border-radius:12px;background:var(--accent);color:#fff;font:800 16px system-ui,sans-serif;text-decoration:none;margin-top:8px}
+  .note{color:var(--muted);font-size:14px;margin:6px 0 0}
+  ol{padding-inline-start:20px;margin:6px 0}
+</style>
+</head>
+<body>
+<main>
+  <h1>اختبار: الرجوع من Firefox إلى تطبيق دوزنها</h1>
+  <div class="card">
+    <ol>
+      <li>افتح هذه الصفحة في <b>Firefox</b> على الجوال.</li>
+      <li>اضغط الأزرار بالترتيب، وبعد كل زر ارجع إلى Firefox.</li>
+      <li>صوّر النتيجة أو اكتب: أي زر فتح دوزنها، وهل ظهرت رسالة قبل الفتح.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>الزر ١</h2>
+    <a class="btn" href="intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=app.dozenha;end">الرجوع إلى دوزنها (١)</a>
+    <p class="note">رابط يفتح التطبيق باسم حزمته.</p>
+  </div>
+
+  <div class="card">
+    <h2>الزر ٢</h2>
+    <a class="btn" href="intent:#Intent;component=app.dozenha/app.naghma.MainActivity;end">الرجوع إلى دوزنها (٢)</a>
+    <p class="note">رابط يفتح شاشة التطبيق الرئيسية مباشرة.</p>
+  </div>
+
+  <div class="card">
+    <h2>الزر ٣</h2>
+    <button type="button" id="b3">الرجوع إلى دوزنها (٣)</button>
+    <p class="note">نفس الزر ١ لكن بطريقة برمجية، كما سيكون داخل لوحة يوتيوب.</p>
+  </div>
+
+  <div class="card">
+    <h2>إعداد Firefox الحالي</h2>
+    <p class="note" style="margin:0">قبل الاختبار تأكّد أن إعداد Firefox ← <b>متقدم</b> ← <b>فتح الروابط في التطبيقات</b> هو <b>«أبداً»</b>، لأن هذا ما ننصح به المستخدمين. وإن أردت، أعد الاختبار بعد تغييره إلى «اسأل دائماً» لنعرف الفرق.</p>
+  </div>
+</main>
+<script>
+document.getElementById('b3').addEventListener('click', function () {
+  location.href = 'intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=app.dozenha;end';
+});
+</script>
+</body>
+</html>
